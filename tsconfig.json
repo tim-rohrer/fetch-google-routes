@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "baseUrl": "src",
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "noImplicitAny": true,
+      "moduleResolution": "node",
+      "outDir": "dist",
+      "sourceMap": true
+    },
+    // "files": [
+    //   "./node_modules/@types/mocha/index.d.ts",
+    //   "./node_modules/@types/node/index.d.ts"
+    // ],
+    "include": [
+      "src/**/*.ts", "src/googleData.fixture"
+    ],
+    "exclude": [
+      "node_modules",
+      "typings",
+      "src/**/__mocks__"
+    ]
+  }
