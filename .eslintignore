@@ -1,0 +1,3 @@
+src/**/*.spec.ts
+node_modules/*
+src/tests/fixtures/*
