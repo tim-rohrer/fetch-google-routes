@@ -17,7 +17,7 @@ dotenv.config({path: dotEnvPath});
 const assert = chai.assert;
 const expect = chai.expect;
 
-const apiKeyFixture = 'AIzaSyAO8Cz5Y31BZRGgxjXRMs-IRRVP2dyssvk';
+const apiKeyFixture = process.env.GOOGLE_API_KEY;
 
 let fetchGoogleRoutes: FetchGoogleRoutes;
 let mockObj: any;
