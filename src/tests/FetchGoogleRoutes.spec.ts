@@ -2,91 +2,91 @@ import * as path from 'path';
 import * as dotenv from 'dotenv';
 import 'mocha';
 import * as sinon from 'sinon';
-// const assert = require('chai').assert;
 import * as chai from 'chai';
-// import { assert } from 'chai';
-// import { expect } from 'chai';
 import FetchGoogleRoutes, { FetchRoutesParams } from '../FetchGoogleRoutes';
-import { Client } from '@googlemaps/google-maps-services-js';
+import { Client, Status } from '@googlemaps/google-maps-services-js';
 import directionsDataResult from './fixtures/directionsDataResult';
 // import directionsResponse from './fixtures/directionsResponse';
 
 const dotEnvPath = path.resolve('/Users/tim/Programming/Projects/fetch-google-routes/.env');
 dotenv.config({path: dotEnvPath});
 
-const assert = chai.assert;
 const expect = chai.expect;
 
-const apiKeyFixture = process.env.GOOGLE_API_KEY;
+const googleAPIKeyFixture = process.env.GOOGLE_API_KEY;
 
 let fetchGoogleRoutes: FetchGoogleRoutes;
 let mockObj: any;
+let testFunc: any;
 
 const testClient = new Client();
 
 describe('FetchGoogleRoute module', function() {
 
   describe('/constructor', function() {
+    beforeEach(function() {
+      testFunc = new FetchGoogleRoutes(googleAPIKeyFixture, testClient);
+    })
 
     it('should confirm the module exists', function() {
       expect(FetchGoogleRoutes).to.be.a('function');
     })
 
     it('should confirm the module function returns an object', function() {
-      expect(new FetchGoogleRoutes(testClient)).to.be.a('object');
+      expect(testFunc).to.be.a('object');
     })
 
-    // it('should get the API key from the environment', function() {
-    //   const fetch = new FetchGoogleRoutes(testClient);
-    //   assert.equal(FetchGoogleRoutes.getAPIKey(), apiKeyFixture);
-    // })
+    it('should accept and set the googleAPIKey', function() {
+      expect(testFunc).to.haveOwnProperty('googleAPIKey');
+      expect(testFunc.googleAPIKey).to.equal(googleAPIKeyFixture);
+    })
 
   });
 
-  describe('Method: createDirectionsRequest', function() {
-    let fetchProto: { createDirectionsRequest: (arg0: FetchRoutesParams) => any; }
+  // describe('Method: createDirectionsRequest', function() {
+  //   let fetchProto: { createDirectionsRequest: (arg0: FetchRoutesParams) => any; }
 
-    beforeEach(function() {
-      fetchProto = Object.getPrototypeOf(new FetchGoogleRoutes(testClient));
-    })
-    it('should return origin, destination & waypoints in the orderedStops (place_ids) request', function() {
-      const fetchRequest: FetchRoutesParams = {
-        orderedStops: ['ChIJK-0sC0Fl1oYRFccWTTgtw3M','ChIJ7cv00DwsDogRAMDACa2m4K8','ChIJ7cv00DwsDogRAMDACa2m4K9', 'ChIJgdL4flSKrYcRnTpP0XQSojM']
-      }
-      const actual = fetchProto.createDirectionsRequest(fetchRequest);
-      assert.deepEqual(actual, {
-        params: {
-          origin: 'place_id:ChIJK-0sC0Fl1oYRFccWTTgtw3M',
-          destination: 'place_id:ChIJgdL4flSKrYcRnTpP0XQSojM',
-          key: apiKeyFixture,
-          waypoints: ['place_id:ChIJ7cv00DwsDogRAMDACa2m4K8','place_id:ChIJ7cv00DwsDogRAMDACa2m4K9']
-        }
-      })
-    })
-    it('should allow for explicit setting of alternative routing', function() {
-      const fetchRequest: FetchRoutesParams = {
-        orderedStops: ['ChIJK-0sC0Fl1oYRFccWTTgtw3M','ChIJ7cv00DwsDogRAMDACa2m4K8','ChIJ7cv00DwsDogRAMDACa2m4K9', 'ChIJgdL4flSKrYcRnTpP0XQSojM'],
-        alternativeRoutes: true
-      }
-      const actual = fetchProto.createDirectionsRequest(fetchRequest);
-      assert.deepEqual(actual, {
-        params: {
-          origin: 'place_id:ChIJK-0sC0Fl1oYRFccWTTgtw3M',
-          destination: 'place_id:ChIJgdL4flSKrYcRnTpP0XQSojM',
-          key: apiKeyFixture,
-          waypoints: ['place_id:ChIJ7cv00DwsDogRAMDACa2m4K8','place_id:ChIJ7cv00DwsDogRAMDACa2m4K9'],
-          alternatives: true
-        }
-      })
-    })
-  })
+  //   beforeEach(function() {
+  //     fetchProto = Object.getPrototypeOf(new FetchGoogleRoutes(testClient));
+  //   })
+  //   it('should return origin, destination & waypoints in the orderedStops (place_ids) request', function() {
+  //     const fetchRequest: FetchRoutesParams = {
+  //       orderedStops: ['ChIJK-0sC0Fl1oYRFccWTTgtw3M','ChIJ7cv00DwsDogRAMDACa2m4K8','ChIJ7cv00DwsDogRAMDACa2m4K9', 'ChIJgdL4flSKrYcRnTpP0XQSojM']
+  //     }
+  //     const actual = fetchProto.createDirectionsRequest(fetchRequest);
+  //     assert.deepEqual(actual, {
+  //       params: {
+  //         origin: 'place_id:ChIJK-0sC0Fl1oYRFccWTTgtw3M',
+  //         destination: 'place_id:ChIJgdL4flSKrYcRnTpP0XQSojM',
+  //         key: apiKeyFixture,
+  //         waypoints: ['place_id:ChIJ7cv00DwsDogRAMDACa2m4K8','place_id:ChIJ7cv00DwsDogRAMDACa2m4K9']
+  //       }
+  //     })
+  //   })
+  //   it('should allow for explicit setting of alternative routing', function() {
+  //     const fetchRequest: FetchRoutesParams = {
+  //       orderedStops: ['ChIJK-0sC0Fl1oYRFccWTTgtw3M','ChIJ7cv00DwsDogRAMDACa2m4K8','ChIJ7cv00DwsDogRAMDACa2m4K9', 'ChIJgdL4flSKrYcRnTpP0XQSojM'],
+  //       alternativeRoutes: true
+  //     }
+  //     const actual = fetchProto.createDirectionsRequest(fetchRequest);
+  //     assert.deepEqual(actual, {
+  //       params: {
+  //         origin: 'place_id:ChIJK-0sC0Fl1oYRFccWTTgtw3M',
+  //         destination: 'place_id:ChIJgdL4flSKrYcRnTpP0XQSojM',
+  //         key: apiKeyFixture,
+  //         waypoints: ['place_id:ChIJ7cv00DwsDogRAMDACa2m4K8','place_id:ChIJ7cv00DwsDogRAMDACa2m4K9'],
+  //         alternatives: true
+  //       }
+  //     })
+  //   })
+  // })
 
   describe('Method: fetchRoutes', function() {
     let fetch: { fetchRoutes: (arg0: FetchRoutesParams) => any; }
 
     beforeEach(function() {
       mockObj = sinon.stub(testClient, 'directions');
-      fetch = new FetchGoogleRoutes(testClient);
+      fetch = new FetchGoogleRoutes(googleAPIKeyFixture, testClient);
     });
 
     afterEach(function() {
@@ -101,31 +101,11 @@ describe('FetchGoogleRoute module', function() {
       
       const actual = await fetch.fetchRoutes(fetchRequest);
 
-      assert.equal(actual.status, "OK");
-      assert.equal(actual, directionsDataResult.data);
+      expect(actual.status).to.be.equal(Status.OK);
+      expect(actual).to.be.equal(directionsDataResult.data);
     });
 
-    it('should handle reject statuses from Google', async function() {
-      const badResult = {
-        data: {
-          geocoded_waypoints: [[Object], [Object]],
-          routes: [[Object]],
-          status: 'INVALID_REQUEST',
-        }
-      }
-      const fetchRequest: FetchRoutesParams = {
-        orderedStops: ['InvalidPLACE_ID', 'ChIJgdL4flSKrYcRnTpP0XQSojM']
-      };
-
-      mockObj.rejects("INVALID_RESPONSE");
-      try {
-        const actual = await fetch.fetchRoutes(fetchRequest)
-      } catch (e) {
-        assert.equal(e,"Error: INVALID_RESPONSE")
-      }
-    });
-
-    it('should handle a geocoder_status of ZERO_RESULTS', async function() {
+    it('should handle a geocoder_status of ZERO_RESULTS as an error', async function() {
       // Or this might work:
       // async function foo() {throw new Error("Foo");}
       // it("`foo` throws an async error (rejected Promise)", () => {
@@ -143,13 +123,35 @@ describe('FetchGoogleRoute module', function() {
       };
 
       mockObj.resolves(noRoutes);
-
       try {
         const actual = await fetch.fetchRoutes(fetchRequest)
-      } catch (e) {
-        assert.equal(e, "Error: No Routes Found");
+        console.log("FAILED TEST! ", actual);
+      } catch (error) {
+        // console.log(error)
+        expect(error).to.be.an('error').with.property('message', "No Routes Found");
       }
     })
+
+    it('should handle reject statuses from Google', async function() {
+      const badResult = {
+        data: {
+          geocoded_waypoints: [[Object], [Object]],
+          routes: [[Object]],
+          status: 'INVALID_REQUEST',
+        }
+      }
+      const fetchRequest: FetchRoutesParams = {
+        orderedStops: ['InvalidPLACE_ID', 'ChIJgdL4flSKrYcRnTpP0XQSojM']
+      };
+
+      mockObj.rejects();
+ 
+      try {
+        const actual = await fetch.fetchRoutes(fetchRequest)
+      } catch (error) {
+        expect(error).to.be.an('error').with.property('message', "Error");
+      }
+    });
 
   });
 });

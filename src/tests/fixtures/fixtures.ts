@@ -1,4 +1,6 @@
-import directionsResponse from './directionsResponse';
+// import directionsResponse from './directionsResponse';
 import directionsDataResult from './directionsDataResult';
+import directionsRequest from './directionsRequest';
+import fetchGoogleRoutesResults from './fetchGoogRoutesResults';
 
-export default { directionsResponse, directionsDataResult };
+export { directionsRequest, directionsDataResult, fetchGoogleRoutesResults };
