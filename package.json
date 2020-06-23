@@ -4,7 +4,8 @@
   "description": "Fetches Google Maps routes",
   "main": "index.ts",
   "scripts": {
-    "start": "rm -rf dist/* && tsc && node dist/index.js",
+    "build": "tsc",
+    "start": "npm run build &&  node dist/index.js",
     "watch": "mocha --require ts-node/register --watch --watch-files 'src' src/**/*.spec.ts",
     "linter": "eslint src --ext ts --fix"
   },
