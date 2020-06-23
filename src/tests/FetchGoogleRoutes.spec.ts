@@ -39,6 +39,7 @@ describe('FetchGoogleRoute module', function() {
     it('should accept and set the googleAPIKey', function() {
       expect(testFunc).to.haveOwnProperty('googleAPIKey');
       expect(testFunc.googleAPIKey).to.equal(googleAPIKeyFixture);
+      expect(testFunc.googleAPIKey).not.to.be.undefined;
     })
 
   });

@@ -26,6 +26,7 @@ export default class FetchGoogleRoutes {
 
   private createDirectionsRequest = (routingRequest: FetchRoutesParams): DirectionsRequest => {
     try {
+      // console.log("This: ", this);
       const { orderedStops } = routingRequest;
       const noOrderedStops = orderedStops.length;
       let params: DirectionsRequest['params'] = {
