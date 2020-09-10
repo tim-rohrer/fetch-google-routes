@@ -110,7 +110,6 @@ describe('FetchGoogleRoute module', function() {
       try {
         const actual = await fetch.fetchRoutes(fetchRequest)
       } catch (error) {
-        console.log(error.data);
         expect(error).to.be.an('error').with.property('message', 'Google Client rejection: Code 403 (INVALID_REQUEST. Dummy error message)');
       }
     });

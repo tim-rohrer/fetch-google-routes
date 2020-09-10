@@ -28,7 +28,7 @@ class App {
     this.express.use('/api', router);
     this.express.use((error: Error, req: any, res: any, next: any) => {
       res.status(500)
-        .send(`An unexpected server error occurred: ${error.message}`);
+        .send(`Server error: ${error.message}`);
     });
   }
 }

@@ -57,12 +57,22 @@ describe('App module', function() {
       })
   
       it('should handle situation of ZERO_RESULTS from fetchRoutes', async function() {
-        mockFetchRoutes.throws(new Error("No Routes Found"));
+        const errorMessage = "No Routes Found";
+        mockFetchRoutes.throws(new Error(errorMessage));
   
         const res = await request(app)
         .post('/api/fetch')
         expect(res.status).to.equal(500);
-        expect(res.text).to.equal("An unexpected server error occurred: No Routes Found");
+        expect(res.text).to.equal(`Server error: ${errorMessage}`);
+      })
+
+      it('should provide a meaningful error response if rejection occurs', async function() {
+        const errorMessage = "Google Client rejection: Code 403 (INVALID_REQUEST. Dummy error message)";
+        mockFetchRoutes.throws(new Error(errorMessage));
+        const res = await request(app)
+        .post('/api/fetch')
+        expect(res.status).to.equal(500);
+        expect(res.text).to.equal(`Server error: ${errorMessage}`);
       })
 
     })
