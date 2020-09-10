@@ -17,16 +17,19 @@ describe('App module', function() {
       it('should export a function', () => {
         expect(app).to.be.a('function');
       });
-      it('should handle situation with invalid paramerters', async function() {
-        const res = await request(app)
-        .post('/api/fetch')
-        .send({})
-        .set('Accept', 'application/json');
-        // console.log("Response analysis: ",res.text)
-        expect(res.status).to.equal(500);
-        expect(res.text).to.include("Error creating directions request.");
+      it('should handle situation with invalid parameters', async function() {
+        try {
+          const res = await request(app)
+          .post('/api/fetch')
+          .send({
+            orderedStops: ["12345", "48284"]
+          })
+          .set('Accept', 'application/json');
+          expect(res.status).to.equal(500);
+        } catch (err) {
+          expect(err).to.include('Unable to create directions request.');
+        }
       })
-
     })
 
     describe('with mocked FetchGoogleRoutes', function() {
@@ -41,9 +44,12 @@ describe('App module', function() {
 
       it('should respond with a proper Google directionsResponse', async function() {
         mockFetchRoutes.resolves(fixtures.fetchGoogleRoutesResults);
+        const mockDirectionsRequest = {
+          orderedStops: fixtures.directionsRequest.orderedStops
+        }
         const res = await request(app)
         .post('/api/fetch')
-        .send(fixtures.directionsRequest)
+        .send(mockDirectionsRequest)
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         expect(res.status).to.equal(200);

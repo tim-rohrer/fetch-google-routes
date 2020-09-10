@@ -6,9 +6,8 @@ import * as chai from 'chai';
 import FetchGoogleRoutes, { FetchRoutesParams } from '../FetchGoogleRoutes';
 import { Client, Status } from '@googlemaps/google-maps-services-js';
 import directionsDataResult from './fixtures/directionsDataResult';
-// import directionsResponse from './fixtures/directionsResponse';
 
-const dotEnvPath = path.resolve('/Users/tim/Programming/Projects/fetch-google-routes/.env');
+const dotEnvPath = path.resolve('/Users/tim/Programming/wanders/fetch-google-routes/.env');
 dotenv.config({path: dotEnvPath});
 
 const expect = chai.expect;
@@ -44,44 +43,6 @@ describe('FetchGoogleRoute module', function() {
 
   });
 
-  // describe('Method: createDirectionsRequest', function() {
-  //   let fetchProto: { createDirectionsRequest: (arg0: FetchRoutesParams) => any; }
-
-  //   beforeEach(function() {
-  //     fetchProto = Object.getPrototypeOf(new FetchGoogleRoutes(testClient));
-  //   })
-  //   it('should return origin, destination & waypoints in the orderedStops (place_ids) request', function() {
-  //     const fetchRequest: FetchRoutesParams = {
-  //       orderedStops: ['ChIJK-0sC0Fl1oYRFccWTTgtw3M','ChIJ7cv00DwsDogRAMDACa2m4K8','ChIJ7cv00DwsDogRAMDACa2m4K9', 'ChIJgdL4flSKrYcRnTpP0XQSojM']
-  //     }
-  //     const actual = fetchProto.createDirectionsRequest(fetchRequest);
-  //     assert.deepEqual(actual, {
-  //       params: {
-  //         origin: 'place_id:ChIJK-0sC0Fl1oYRFccWTTgtw3M',
-  //         destination: 'place_id:ChIJgdL4flSKrYcRnTpP0XQSojM',
-  //         key: apiKeyFixture,
-  //         waypoints: ['place_id:ChIJ7cv00DwsDogRAMDACa2m4K8','place_id:ChIJ7cv00DwsDogRAMDACa2m4K9']
-  //       }
-  //     })
-  //   })
-  //   it('should allow for explicit setting of alternative routing', function() {
-  //     const fetchRequest: FetchRoutesParams = {
-  //       orderedStops: ['ChIJK-0sC0Fl1oYRFccWTTgtw3M','ChIJ7cv00DwsDogRAMDACa2m4K8','ChIJ7cv00DwsDogRAMDACa2m4K9', 'ChIJgdL4flSKrYcRnTpP0XQSojM'],
-  //       alternativeRoutes: true
-  //     }
-  //     const actual = fetchProto.createDirectionsRequest(fetchRequest);
-  //     assert.deepEqual(actual, {
-  //       params: {
-  //         origin: 'place_id:ChIJK-0sC0Fl1oYRFccWTTgtw3M',
-  //         destination: 'place_id:ChIJgdL4flSKrYcRnTpP0XQSojM',
-  //         key: apiKeyFixture,
-  //         waypoints: ['place_id:ChIJ7cv00DwsDogRAMDACa2m4K8','place_id:ChIJ7cv00DwsDogRAMDACa2m4K9'],
-  //         alternatives: true
-  //       }
-  //     })
-  //   })
-  // })
-
   describe('Method: fetchRoutes', function() {
     let fetch: { fetchRoutes: (arg0: FetchRoutesParams) => any; }
 
@@ -107,11 +68,6 @@ describe('FetchGoogleRoute module', function() {
     });
 
     it('should handle a geocoder_status of ZERO_RESULTS as an error', async function() {
-      // Or this might work:
-      // async function foo() {throw new Error("Foo");}
-      // it("`foo` throws an async error (rejected Promise)", () => {
-      //   return foo().catch(error => expect(error).to.be.an('error').with.property('message', 'Foo'))
-      // });
       const noRoutes: any = {
         data: {
           geocoded_waypoints: [[Object], [Object]],
@@ -128,7 +84,6 @@ describe('FetchGoogleRoute module', function() {
         const actual = await fetch.fetchRoutes(fetchRequest)
         console.log("FAILED TEST! ", actual);
       } catch (error) {
-        // console.log(error)
         expect(error).to.be.an('error').with.property('message', "No Routes Found");
       }
     })

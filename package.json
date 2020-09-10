@@ -1,6 +1,6 @@
 {
   "name": "fetch-google-routes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Fetches Google Maps routes",
   "main": "index.ts",
   "scripts": {

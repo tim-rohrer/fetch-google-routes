@@ -25,7 +25,6 @@ class App {
     this.express.use(express.json());
     this.express.use('/api', router);
     this.express.use((error: Error, req: any, res: any, next: any) => {
-      console.log('Server error: ', error);
       res.status(500)
         .send(`An unexpected server error occurred: ${error.message}`);
     });

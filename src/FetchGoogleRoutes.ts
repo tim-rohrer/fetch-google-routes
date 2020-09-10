@@ -21,7 +21,6 @@ export default class FetchGoogleRoutes {
     this.fetchRoutes.bind(this);
     this.googleAPIKey = googleAPIKey;
     this.googleClient = googleClient;
-    // this.createDirectionsRequest = this.createDirectionsRequest.bind(this);
   }
 
   private createDirectionsRequest = (routingRequest: FetchRoutesParams): DirectionsRequest => {
@@ -51,7 +50,7 @@ export default class FetchGoogleRoutes {
       // const waypoints
       return { params };
     } catch (error) {
-      throw new Error('Error creating directions request.');
+      throw new Error('Unable to create directions request.');
     }
   }
 
