@@ -54,11 +54,12 @@ export default class FetchGoogleRoutes {
     }
   }
 
+  // eslint-disable-next-line consistent-return
   public async fetchRoutes(routingRequest: FetchRoutesParams): Promise<DirectionsResponse['data']> {
     // console.log("routingRequest: ", routingRequest);
     const fetchParams: DirectionsRequest = this.createDirectionsRequest(routingRequest);
-    const r = await this.googleClient.directions(fetchParams);
     try {
+      const r = await this.googleClient.directions(fetchParams);
       if (r.data.status === Status.OK) {
         return r.data;
       }
@@ -66,8 +67,23 @@ export default class FetchGoogleRoutes {
         throw new Error('No Routes Found');
       }
     } catch (err) {
-      console.log('Should not be here!', err.message);
-      throw new Error('WTF!');
+      if (err.message === 'No Routes Found') {
+        throw err;
+      } else {
+        this.handleGoogleRejection(err);
+      }
     }
+  }
+
+  private handleGoogleRejection = (rejection:
+    {
+      response: { status: any; data: any; };
+    }): Error => {
+    const rejectionResponse = {
+      statusCode: rejection.response.status,
+      statusReason: rejection.response.data.status,
+      error_message: rejection.response.data.error_message,
+    };
+    throw new Error(`Google Client rejection: Code ${rejectionResponse.statusCode} (${rejectionResponse.statusReason}. ${rejectionResponse.error_message})`);
   }
 }

@@ -21,9 +21,7 @@ describe('App module', function() {
         try {
           const res = await request(app)
           .post('/api/fetch')
-          .send({
-            orderedStops: ["12345", "48284"]
-          })
+          .send({})
           .set('Accept', 'application/json');
           expect(res.status).to.equal(500);
         } catch (err) {

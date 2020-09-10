@@ -1,6 +1,6 @@
 {
   "name": "fetch-google-routes",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Fetches Google Maps routes",
   "main": "index.ts",
   "scripts": {
@@ -44,7 +44,7 @@
     "ts-node": "^8.10.2"
   },
   "dependencies": {
-    "@googlemaps/google-maps-services-js": "^3.0.0",
+    "@googlemaps/google-maps-services-js": "^3.1.6",
     "@types/express": "^4.17.6",
     "class-validator": "^0.12.2",
     "cors": "^2.8.5",

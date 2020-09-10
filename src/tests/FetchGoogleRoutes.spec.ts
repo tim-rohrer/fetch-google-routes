@@ -87,25 +87,31 @@ describe('FetchGoogleRoute module', function() {
         expect(error).to.be.an('error').with.property('message', "No Routes Found");
       }
     })
-
+/** @todo Rewrite this test to confirm we get the reject status
+ * messages back to the higher level.
+ */
     it('should handle reject statuses from Google', async function() {
       const badResult = {
-        data: {
-          geocoded_waypoints: [[Object], [Object]],
-          routes: [[Object]],
-          status: 'INVALID_REQUEST',
+        Error: 'Dummy error trace',
+        response: {
+          status: 403,
+          data: {
+            error_message: 'Dummy error message',
+            status: 'INVALID_REQUEST',
+          }
         }
       }
       const fetchRequest: FetchRoutesParams = {
         orderedStops: ['InvalidPLACE_ID', 'ChIJgdL4flSKrYcRnTpP0XQSojM']
       };
 
-      mockObj.rejects();
+      mockObj.rejects(badResult);
  
       try {
         const actual = await fetch.fetchRoutes(fetchRequest)
       } catch (error) {
-        expect(error).to.be.an('error').with.property('message', "Error");
+        console.log(error.data);
+        expect(error).to.be.an('error').with.property('message', 'Google Client rejection: Code 403 (INVALID_REQUEST. Dummy error message)');
       }
     });
 
