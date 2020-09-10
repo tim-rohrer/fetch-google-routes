@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import { Client } from '@googlemaps/google-maps-services-js';
 import FetchGoogleRoutes from './FetchGoogleRoutes';
 
@@ -23,6 +24,7 @@ class App {
       }
     });
     this.express.use(express.json());
+    this.express.use(cors());
     this.express.use('/api', router);
     this.express.use((error: Error, req: any, res: any, next: any) => {
       res.status(500)

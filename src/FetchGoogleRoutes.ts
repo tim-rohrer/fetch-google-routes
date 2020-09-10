@@ -50,21 +50,24 @@ export default class FetchGoogleRoutes {
       // const waypoints
       return { params };
     } catch (error) {
-      throw new Error('Unable to create directions request.');
+      throw new Error(`Unable to create directions request. ${error.message}`);
     }
   }
 
   public async fetchRoutes(routingRequest: FetchRoutesParams): Promise<DirectionsResponse['data']> {
     // console.log("routingRequest: ", routingRequest);
     const fetchParams: DirectionsRequest = this.createDirectionsRequest(routingRequest);
-    // console.log("fetchParams: ", fetchParams);
     const r = await this.googleClient.directions(fetchParams);
-    if (r.data.status === Status.OK) {
-      return r.data;
+    try {
+      if (r.data.status === Status.OK) {
+        return r.data;
+      }
+      if (r.data.status === Status.ZERO_RESULTS) {
+        throw new Error('No Routes Found');
+      }
+    } catch (err) {
+      console.log('Should not be here!', err.message);
+      throw new Error('WTF!');
     }
-    if (r.data.status === Status.ZERO_RESULTS) {
-      throw new Error('No Routes Found');
-    }
-    throw new Error();
   }
 }
