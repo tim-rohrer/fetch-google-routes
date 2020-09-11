@@ -84,6 +84,7 @@ export default class FetchGoogleRoutes {
       statusReason: rejection.response.data.status,
       error_message: rejection.response.data.error_message,
     };
+    console.log(rejection.response.data);
     throw new Error(`Google Client rejection: Code ${rejectionResponse.statusCode} (${rejectionResponse.statusReason}. ${rejectionResponse.error_message})`);
   }
 }
